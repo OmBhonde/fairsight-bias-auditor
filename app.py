@@ -5,26 +5,24 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report, accuracy_score
 
-st.set_page_config(page_title="Bank Term Deposit Predictor", layout="wide")
-st.title("📊 Bank Term Deposit Predictor")
+st.set_page_config(page_title="Fairsight Bias Auditor", layout="wide")
+st.title("📊 Fairsight Bias Auditor")
 
 @st.cache_data
 def load_data():
-    url = "https://raw.githubusercontent.com/OmBhonde/fairsight-bias-auditor/main/bank.csv"
-    data = pd.read_csv(url, sep=';')
+    url = "https://raw.githubusercontent.com/OmBhonde/fairsight-bias-auditor/refs/heads/main/bank.csv"
+    data = pd.read_csv(url, sep=';')  # bank.csv uses semicolon separator
 
-    # Clean object columns
+    # Clean all object columns
     for col in data.select_dtypes(include='object').columns:
         data[col] = data[col].astype(str).str.strip()
 
-    # DEBUG: Show target value distribution before filtering
-    st.write("🧪 Unique values in 'y' BEFORE processing:", data['y'].unique())
+    st.write("🧪 Unique values in target BEFORE filtering:", data['y'].unique())
 
-    # Filter out invalid values if any
+    # Filter only valid target values
     valid_targets = ['yes', 'no']
     data = data[data['y'].isin(valid_targets)]
 
-    # DEBUG: Show class distribution
     st.write("✅ Class counts AFTER filtering:", data['y'].value_counts())
 
     return data
