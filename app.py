@@ -20,7 +20,7 @@ import seaborn as sns
 # STEP 2: Load Dataset
 @st.cache_data
 def load_data():
-    url = 'https://raw.githubusercontent.com/selva86/datasets/master/adult.csv'
+    url = 'adult.csv'
     data = pd.read_csv(url)
     data = data.dropna()
     return data
