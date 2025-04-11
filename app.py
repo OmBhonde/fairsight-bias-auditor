@@ -21,7 +21,12 @@ import seaborn as sns
 @st.cache_data
 def load_data():
     url = 'https://raw.githubusercontent.com/OmBhonde/fairsight-bias-auditor/main/adult.csv'
-    data = pd.read_csv(url)
+    column_names = [
+        "age", "workclass", "fnlwgt", "education", "education-num",
+        "marital-status", "occupation", "relationship", "race", "sex",
+        "capital-gain", "capital-loss", "hours-per-week", "native-country", "income"
+    ]
+    data = pd.read_csv(url, names=column_names, skiprows=1)  # skip header row if already exists
     data = data.dropna()
     return data
 
