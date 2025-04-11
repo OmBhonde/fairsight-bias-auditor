@@ -16,10 +16,13 @@ def load_data():
         "capital-gain", "capital-loss", "hours-per-week", "native-country", "income"
     ]
     data = pd.read_csv(url, names=column_names, skiprows=1)
-    data.dropna(inplace=True)
 
-    # Fix: Ensure 'income' is a string before stripping
-    data['income'] = data['income'].astype(str).str.strip()
+    # Clean string columns
+    for col in data.select_dtypes(include='object').columns:
+        data[col] = data[col].astype(str).str.strip()
+
+    # Drop rows with missing or invalid income
+    data = data[data['income'].isin(['<=50K', '>50K'])]
 
     return data
 
@@ -28,7 +31,6 @@ df = load_data()
 st.subheader("📊 Raw Dataset Preview")
 st.write(df.head())
 
-# Encode categorical features
 def preprocess_data(df):
     df_encoded = df.copy()
     le_dict = {}
@@ -43,6 +45,9 @@ df_encoded, label_encoders = preprocess_data(df)
 def train_model(df):
     X = df.drop('income', axis=1)
     y = df['income']
+
+    # Debug: Show class distribution
+    st.write("🎯 Target class distribution:", y.value_counts())
 
     if y.nunique() < 2:
         raise ValueError("Target variable 'income' has fewer than 2 unique classes after cleaning.")
@@ -63,16 +68,13 @@ st.write("**Accuracy:**", accuracy_score(y_test, y_pred))
 st.text("Classification Report:")
 st.text(classification_report(y_test, y_pred))
 
-# Fairness check
+# Bias Check
 st.subheader("🧪 Bias Check: Accuracy by Gender")
 X_test_original = df.loc[X_test.index]
 X_test_original['prediction'] = y_pred
 
 gender_accuracy = X_test_original.groupby('sex').apply(
-    lambda g: accuracy_score(
-        df_encoded.loc[g.index, 'income'],
-        y_pred[g.index]
-    )
+    lambda g: accuracy_score(df_encoded.loc[g.index, 'income'], y_pred[g.index])
 )
 
 st.write(gender_accuracy)
