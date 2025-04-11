@@ -5,3 +5,6 @@ fairlearn
 streamlit
 matplotlib
 seaborn
+streamlit
+pandas
+scikit-learn
