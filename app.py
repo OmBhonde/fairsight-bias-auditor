@@ -17,7 +17,10 @@ def load_data():
     ]
     data = pd.read_csv(url, names=column_names, skiprows=1)
     data.dropna(inplace=True)
-    data['income'] = data['income'].str.strip()
+
+    # Fix: Ensure 'income' is a string before stripping
+    data['income'] = data['income'].astype(str).str.strip()
+
     return data
 
 df = load_data()
@@ -40,15 +43,15 @@ df_encoded, label_encoders = preprocess_data(df)
 def train_model(df):
     X = df.drop('income', axis=1)
     y = df['income']
-    
+
     if y.nunique() < 2:
         raise ValueError("Target variable 'income' has fewer than 2 unique classes after cleaning.")
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-    
+
     model = LogisticRegression(max_iter=1000)
     model.fit(X_train, y_train)
-    
+
     return model, X_test, y_test
 
 model, X_test, y_test = train_model(df_encoded)
@@ -73,5 +76,3 @@ gender_accuracy = X_test_original.groupby('sex').apply(
 )
 
 st.write(gender_accuracy)
-
-
