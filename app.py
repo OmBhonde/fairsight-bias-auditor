@@ -20,7 +20,7 @@ import seaborn as sns
 # STEP 2: Load Dataset
 @st.cache_data
 def load_data():
-    url = 'adult.csv'
+    url = 'https://raw.githubusercontent.com/OmBhonde/fairsight-bias-auditor/main/adult.csv'
     data = pd.read_csv(url)
     data = data.dropna()
     return data
