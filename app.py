@@ -13,9 +13,8 @@ protected_attr = st.sidebar.selectbox("Select Protected Attribute", ['job', 'mar
 
 @st.cache_data
 def load_data():
-<<<<<<< HEAD
+
     data = pd.read_csv("bank.csv", sep=';')  # local file now
-=======
     url = "https://raw.githubusercontent.com/OmBhonde/fairsight-bias-auditor/main/bank.csv"
     data = pd.read_csv(url, sep=';')  # bank.csv uses semicolon separator
 
