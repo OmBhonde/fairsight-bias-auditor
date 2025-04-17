@@ -10,7 +10,7 @@ st.title("📊 Fairsight Bias Auditor")
 
 @st.cache_data
 def load_data():
-    url = "https://raw.githubusercontent.com/OmBhonde/fairsight-bias-auditor/refs/heads/main/bank.csv"
+    url = "https://raw.githubusercontent.com/OmBhonde/fairsight-bias-auditor/main/bank.csv"
     data = pd.read_csv(url, sep=';')  # bank.csv uses semicolon separator
 
     # Clean all object columns
