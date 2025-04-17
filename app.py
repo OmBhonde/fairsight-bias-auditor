@@ -18,7 +18,6 @@ def load_data():
 =======
     url = "https://raw.githubusercontent.com/OmBhonde/fairsight-bias-auditor/main/bank.csv"
     data = pd.read_csv(url, sep=';')  # bank.csv uses semicolon separator
->>>>>>> 6774de9be2220130f1e773a09ea37de7cf9a9f62
 
     # Clean object columns
     for col in data.select_dtypes(include='object').columns:
