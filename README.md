@@ -35,12 +35,6 @@ streamlit run app.py
 
 ---
 
-## 📌 Screenshot
-
-> *Add a screenshot of the app once deployed*
-
----
-
 ## 🧠 Built With
 
 - [Streamlit](https://streamlit.io/)
